@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { StatusService } from './shared/status.service';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,17 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'calender-payment-system';
+  status = "DOWN";
+
+  constructor(private statusService: StatusService) { }
+
+  ngOnInit() {
+    this.statusService
+      .getStatus()
+      .then((result: any) => {
+        this.status = result.status;
+      });
+  }
 }
